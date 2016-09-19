@@ -1,7 +1,7 @@
 # coding: utf-8
-lib = File.expand_path('../lib', __FILE__)
+lib = File.expand_path("../lib", __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'sparkpost_response/version'
+require "sparkpost_response/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "sparkpost_response"
@@ -9,12 +9,11 @@ Gem::Specification.new do |spec|
   spec.authors       = ["George Karaszi"]
   spec.email         = ["georgekaraszi@gmail.com"]
 
-  spec.required_ruby_version = '>= 2.0.0'
+  spec.required_ruby_version = ">= 2.0.0"
   spec.summary       = "Handles the Sparkpost API querying"
   spec.description   = "Handles the Sparkpost API querying"
   spec.homepage      = "https://github.com/elevatorup/sparkpost_response"
   spec.license       = "MIT"
-
 
   spec.files         = `git ls-files -z`.split("\x0").reject do |f|
     f.match(%r{^(test|spec|features)/})
