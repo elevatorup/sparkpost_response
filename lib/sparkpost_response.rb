@@ -1,3 +1,5 @@
+require "active_support/all"
+require "active_record"
 require "sparkpost_response/sparkpost_base"
 require "sparkpost_response/message_events"
 
