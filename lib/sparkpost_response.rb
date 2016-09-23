@@ -1,9 +1,8 @@
 require "active_support/all"
 require "active_record"
+require "sparkpost_response"
 require "sparkpost_response/sparkpost_base"
 require "sparkpost_response/message_events"
-
-require "sparkpost_response/railtie" if defined? ::Rails
 
 module SparkpostResponse
   class << self
