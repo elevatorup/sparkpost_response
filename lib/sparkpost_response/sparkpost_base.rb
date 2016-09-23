@@ -7,13 +7,13 @@ module SparkpostResponse
     protected
 
     def process_response(results)
-      result_data = JSON.parse(results.body)
+      result_data = JSON.parse(results.body).with_indifferent_access
 
-      if result_data["errors"]
-        @response = result_data["errors"]
+      if result_data[:errors]
+        @response = result_data[:errors]
         raise @response
       else
-        @response = result_data["results"]
+        @response = result_data[:results]
       end
     end
 
