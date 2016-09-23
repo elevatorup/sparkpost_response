@@ -5,6 +5,9 @@ module SparkPostResponse
         config.load_paths << "core_ext"
       end
     end
+    initializer "sparkpost_response.activesupport_extensions" do |_app|
+      ActiveSupport::Base.send :extend, SparkpostResponse
+    end
     config.after_initialize do
       require "sparkpost_response"
     end

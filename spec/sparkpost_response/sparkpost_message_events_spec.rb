@@ -24,7 +24,7 @@ module SparkpostResponse
       end
 
       context "A successful query" do
-        let! (:messages) { build(:sparkpost_results, :bounce) }
+        let!(:messages) { build(:sparkpost_results, :bounce) }
         before { stub_supply(:any, messages.to_json) }
 
         it "should return processed json results of bounced messages" do
@@ -42,11 +42,11 @@ module SparkpostResponse
     end
 
     describe "classify_bounces" do
-      let! (:messages) { build(:sparkpost_results, :bounce) }
+      let!(:messages) { build(:sparkpost_results, :bounce) }
       before { stub_supply(:any, messages.to_json) }
 
       it "It should add an entry `classify_bounce` to the response" do
-        response = subject.bounce_messages_event.classify_bounces
+        response = subject.bounce_messages_event(classify_bounces: true)
         expect(response.first[:classify_bounce]).to_not eq(nil)
       end
     end

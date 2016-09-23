@@ -41,9 +41,17 @@ module SparkpostResponse
     end
 
     def messages_event(options = {})
+      bounce_classify = false
+
+      if options[:classify_bounces]
+        bounce_classify = options[:classify_bounces]
+        options.delete(:classify_bounces)
+      end
+
       opts = process_options(options)
       response = get_to_api(opts)
-      process_response(response)
+      data_return = process_response(response)
+      bounce_classify ? classify_bounces(data_return) : data_return
     end
 
     def process_options(options = {})
@@ -53,7 +61,7 @@ module SparkpostResponse
     end
 
     # Inserts an entry into the bounce responses with meta information about the bounced error
-    def self.classify_bounces(responses)
+    def classify_bounces(responses)
       responses.each do |message|
         if message[:type] == "bounce"
           message[:classify_bounce] = error_by_code(message[:bounce_class].to_i)
@@ -62,14 +70,8 @@ module SparkpostResponse
     end
 
     # Select the error from the list of possible codes
-    def self.error_by_code(code)
+    def error_by_code(code)
       BOUNCE_CLASS.detect { |_, bounce| bounce[:code] == code }
     end
-  end
-end
-
-class Array
-  def classify_bounces
-    SparkpostResponse::MessageEvents.classify_bounces(self)
   end
 end

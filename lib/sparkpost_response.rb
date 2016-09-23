@@ -3,6 +3,8 @@ require "active_record"
 require "sparkpost_response/sparkpost_base"
 require "sparkpost_response/message_events"
 
+require "sparkpost_response/railtie" if defined? ::Rails
+
 module SparkpostResponse
   class << self
     attr_accessor :configuration

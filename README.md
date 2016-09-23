@@ -37,7 +37,7 @@ SparkPostResponse::MessageEvents.bounce_messages_event(recipients: ["john@exampl
 ####Bounce meta data
 [Bounce Classification](https://support.sparkpost.com/customer/portal/articles/1929896)
 ```ruby
-SparkPostResponse::MessageEvents.messages_event.classify_bounces #=> {... classify_bounce: { no_rcpt: { level: :hard, code: 30 } }
+SparkPostResponse::MessageEvents.messages_event(classify_bounces: true) #=> {... classify_bounce: { no_rcpt: { level: :hard, code: 30 } }
 ````
 
 A list of all options for given MessageEvents can be found: [Sparkpost API#MessageEvents](https://developers.sparkpost.com/api/message-events.html).
