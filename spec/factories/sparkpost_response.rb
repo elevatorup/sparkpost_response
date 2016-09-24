@@ -10,7 +10,7 @@ FactoryGirl.define do
 
     trait :bounce do
       type { "bounce" }
-      bounce_class { SparkpostResponse::BOUNCE_CLASS[SparkpostResponse::BOUNCE_CLASS.keys.sample][:code] }
+      bounce_class { SparkpostResponse::MessageEvents::BOUNCE_CLASS[SparkpostResponse::MessageEvents::BOUNCE_CLASS.keys.sample][:code] }
       error_code { 544 }
     end
 

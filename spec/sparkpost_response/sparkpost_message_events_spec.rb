@@ -2,31 +2,22 @@ require "spec_helper"
 
 module SparkpostResponse
   RSpec.describe MessageEvents do
+    let!(:messages) { build(:sparkpost_results, :bounce) }
+    before { stub_supply(:any, messages.to_json) }
+
     describe "{suffix}_event_messages" do
       context "suffix method calling" do
-        before { allow_any_instance_of(MessageEvents).to receive(:attribute_messages_event).and_return(true) }
-
-        it "should call the event_messages method based on suffix names" do
-          expect(subject.open_messages_event).to eq(true)
-          expect(subject.bounce_messages_event).to eq(true)
-          expect(subject.injection_messages_event).to eq(true)
-          expect(subject.delivery_messages_event).to eq(true)
-        end
+        it { expect(subject).to respond_to(:open_messages_event) }
+        it { expect(subject).to respond_to(:bounce_messages_event) }
+        it { expect(subject).to respond_to(:injection_messages_event) }
+        it { expect(subject).to respond_to(:delivery_messages_event) }
       end
 
       context "suffix method calling with options" do
-        let(:options) { { recipients: "john@example.com" } }
-        before { expect(subject).to receive(:attribute_messages_event).with("bounce", options).and_return(true) }
-
-        it "should call the event_messages with options being passed" do
-          expect(subject.bounce_messages_event(options)).to eq(true)
-        end
+        it { expect(subject).to respond_to(:bounce_messages_event).with(2).argument }
       end
 
       context "A successful query" do
-        let!(:messages) { build(:sparkpost_results, :bounce) }
-        before { stub_supply(:any, messages.to_json) }
-
         it "should return processed json results of bounced messages" do
           expect(subject.bounce_messages_event).to_not be_nil
         end
@@ -42,9 +33,6 @@ module SparkpostResponse
     end
 
     describe "classify_bounces" do
-      let!(:messages) { build(:sparkpost_results, :bounce) }
-      before { stub_supply(:any, messages.to_json) }
-
       it "It should add an entry `classify_bounce` to the response" do
         response = subject.bounce_messages_event(classify_bounces: true)
         expect(response.first[:classify_bounce]).to_not eq(nil)

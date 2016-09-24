@@ -1,5 +1,5 @@
 module SparkpostResponse
-  class SparkpostBase
+  module SparkpostBase
     require "net/http"
 
     attr_accessor :response, :headers
@@ -18,6 +18,8 @@ module SparkpostResponse
     end
 
     def get_to_api(options)
+      return unless SparkpostResponse.enabled?
+      prepare_api_headers
       url = "https://api.sparkpost.com/api/v1/#{@api_method}?#{options}"
 
       uri = URI.parse(url)
@@ -28,9 +30,11 @@ module SparkpostResponse
       http.request(request)
     end
 
+    private
+
     def prepare_api_headers
       @headers = {
-        "Authorization" => SparkpostResponse.configuration.api_key,
+        "Authorization" => SparkpostResponse.config.api_key,
         "Content-Type" => "application/json",
       }
     end
