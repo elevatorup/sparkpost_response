@@ -43,7 +43,7 @@ module SparkpostResponse
 
       def process_message_event(bounce_classify, options = {})
         return unless SparkpostResponse.enabled?
-        @api_method = "message_events"
+        @api_method = "message-events"
         data_return = process_response(get_to_api(options))
         bounce_classify ? classify_bounces(data_return) : data_return
       end
