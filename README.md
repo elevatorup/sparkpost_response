@@ -8,16 +8,12 @@ This Gems purpose design is to being able to communicate with Sparkpost's API. W
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'sparkpost_response'
+gem 'sparkpost_response', github: `elevatorup/sparkpost_response`
 ```
 
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install sparkpost_response
 
 ## Usage
 
@@ -41,6 +37,32 @@ SparkPostResponse::MessageEvents.messages_event(classify_bounces: true) #=> {...
 ````
 
 A list of all options for given MessageEvents can be found: [Sparkpost API#MessageEvents](https://developers.sparkpost.com/api/message-events.html).
+
+## Testing
+
+###Rspec
+```ruby
+# => /spec/support/sparkpost_response.rb
+require "sparkpost_response/frameworks/rspec"
+
+RSpec.configure do |config|
+  config.before(:each) do
+    SparkpostResponse.configure do |c|
+      c.api_key = "TESTKEY1234"
+    end
+  end
+end
+````
+In order to speed up testing and prevent unnecessary webmocks or vcr's. Including the rspec framework will disable Sparkpost Response.
+This framework provides a helper method called `with_sparkpost` that will temporally enable SparkpostResponse for the given block of tests.
+
+```ruby
+it "should return all statuses of the last email" do
+  with_sparkpost do
+    expect(SparkPostResponse::MessageEvents.messages_event(classify_bounces: true)).to_not be_nil
+  end
+end
+````
 
 ## Development
 
