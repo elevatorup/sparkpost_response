@@ -34,11 +34,6 @@ module SparkpostResponse
       set_defaults
     end
 
-    def enabled=(enable)
-      @enabled = enable
-    end
-
-
     def set_defaults
       @enabled = true
       @api_key = ENV.key?("SPARKPOST_API_KEY") ? ENV["SPARKPOST_API_KEY"] : ""
